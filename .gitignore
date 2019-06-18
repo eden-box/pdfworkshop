@@ -2,7 +2,8 @@
 # Created by https://www.gitignore.io/api/venv,python,pycharm+all
 # Edit at https://www.gitignore.io/?templates=venv,python,pycharm+all
 
-### pdf_workshop ###
+### pdfworkshop ###
+Pipfile.lock
 input/
 output/
 
