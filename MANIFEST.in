@@ -1,0 +1,5 @@
+include LICENSE
+include Pipfile
+include README.md
+include requirements.txt
+recursive-include pdfworkshop *.ini
