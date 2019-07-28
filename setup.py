@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 __application__ = 'pdfworkshop'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 setup(
     name=__application__,

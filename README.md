@@ -4,7 +4,7 @@ PDF compress tool, using iLovePDF API
 
 ## Prerequisites
 The application is compatible with Windows and Linux based systems.
-Python version 3.4 or above is assumed to be installed, as well as pip package manager utility and setuptools module.
+Python version 3.5 or above is assumed to be installed, as well as pip package manager utility and setuptools module.
 
 ## Installation
 ```bash
@@ -27,14 +27,19 @@ The value can be configured using:
 ```bash
 pdfworkshop config public_key new_public_key_value
 ``` 
-The input/ouput directories can also be configured.
-Their default values are set to a directory called 'input' and 'output'
-according to the current path from where the tool was called.
+The input/ouput directories can also be configured, although not advised.
+Their default values are set to the current directory and another _output_ directory,
+according to the path from where the tool was called.
 
 ## Commands
 - list-config - list tool configuration values
 - config \<option\> \<value\> - edit tool configuration values
 - run - compress all PDF files stored in input_dir, storing the result in output_dir
+
+## How to use
+By default, the PDF files to compress should be on the directory from where the tool will be called.
+After using the _run_ command, an _output_ directory will be created, where all compressed
+files will be stored.
 
 ## Example run
 
