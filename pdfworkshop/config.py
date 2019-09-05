@@ -70,7 +70,7 @@ class WorkshopConfig:
         return self.__config
 
     def __get_option(self, option):
-        return self.__config.get("User", option)
+        return self.__config.get("User", option, fallback=None)
 
     def input_dir(self):
         return self.__get_option("input_dir")

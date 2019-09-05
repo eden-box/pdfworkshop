@@ -44,6 +44,15 @@ class PDFWorkshop:
         """
         return glob.glob("{}*.{}".format(directory, file_extension))
 
+    @staticmethod
+    def __get_files_to_rename(directory):
+        """
+        Get list of recently compressed files, to rename
+        :param directory: directory where the compressed files were stored
+        :return: files to rename
+        """
+        return [file for file in PDFWorkshop.__get_files(directory, "pdf") if "_compress_" in file]
+
     def setup(self, option, value):
         """
         Edit a user configuration
@@ -60,8 +69,7 @@ class PDFWorkshop:
 
     def run(self):
         """
-        Run pdfworkshop using the stored configurations
-        :return:
+        Run using the stored configurations
         """
         self.__run(
             self.__config.public_key(),
@@ -93,12 +101,12 @@ class PDFWorkshop:
 
         # unzip response zip, if there is one
         # note that the API response is a zip only if more than one pdf was submitted
-        for zip_file in self.__get_files(output_dir, "zip"):
+        for zip_file in PDFWorkshop.__get_files(output_dir, "zip"):
             zip_ref = zipfile.ZipFile(zip_file, 'r')
             zip_ref.extractall(output_dir)
             zip_ref.close()
             os.remove(zip_file)
 
         # rename all pdf to their original filename
-        [os.rename(filename, self.__clean_filename(filename))
-         for filename in self.__get_files(output_dir, "pdf")]
+        [os.rename(filename, PDFWorkshop.__clean_filename(filename))
+         for filename in PDFWorkshop.__get_files_to_rename(output_dir)]

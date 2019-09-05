@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 __application__ = 'pdfworkshop'
-__version__ = '1.0.1'
+__version__ = '1.0.3'
 
 setup(
     name=__application__,
@@ -18,11 +18,11 @@ setup(
 
     long_description_content_type='text/markdown',
 
-    url='https://github.com/sinistro14/{}'.format(__application__),
+    url='https://github.com/eden-box//{}'.format(__application__),
 
-    author='sinistro14',
+    author='Eden-Box',
 
-    author_email='tiago14_ribeiro@hotmail.com',
+    author_email='eden.box@outlook.com',
 
     license='MIT',
 
