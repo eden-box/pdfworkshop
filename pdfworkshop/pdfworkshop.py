@@ -25,6 +25,29 @@ class PDFWorkshop:
             os.mkdir(directory_path)
 
     @staticmethod
+    def __rename_file(filename, suffix):
+        """
+        Rename a (compressed) file to the original filename and possibly add a suffix.
+        :param filename: The filename to adapt.
+        :param suffix: the suffix given to the compressed file (before the extension).
+        :return: The new filename.
+        """
+        original_filename = PDFWorkshop.__clean_filename(filename)
+        new_filename = PDFWorkshop.__add_filename_suffix(original_filename, suffix)
+        return new_filename
+
+    @staticmethod
+    def __add_filename_suffix(filename, suffix):
+        """
+        Add a suffix to a filename (before the extension). The suffix is extracted from the config file.
+        :param filename: The filename to add the suffix to.
+        :param suffix: the suffix given to the compressed file (before the extension).
+        :return: The filename with suffix appended.
+        """
+        return "{}{}.pdf".format(filename.split(".pdf", 1)[0], suffix)
+
+
+    @staticmethod
     def __clean_filename(filename):
         """
         Simple way to rename compressed file to the original file name
@@ -74,16 +97,18 @@ class PDFWorkshop:
         self.__run(
             self.__config.public_key(),
             self.__config.input_dir(),
-            self.__config.output_dir()
+            self.__config.output_dir(),
+            self.__config.suffix()
         )
 
-    def __run(self, public_key, input_dir, output_dir):
+    def __run(self, public_key, input_dir, output_dir, suffix):
         """
         Compress PDF files stored in input_dir and store the resultant files in output_dir
         Authentication is made using the provided public key
         :param public_key: API development public key
         :param input_dir: directory where the PDF files will be collected from
         :param output_dir: directory where the compressed PDF files will be stored
+        :param suffix: the suffix given to the compressed file (before the extension)
         """
 
         # create directories if they do not exist
@@ -108,5 +133,5 @@ class PDFWorkshop:
             os.remove(zip_file)
 
         # rename all pdf to their original filename
-        [os.rename(filename, PDFWorkshop.__clean_filename(filename))
+        [os.rename(filename, PDFWorkshop.__rename_file(filename, suffix))
          for filename in PDFWorkshop.__get_files_to_rename(output_dir)]

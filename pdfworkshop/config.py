@@ -80,3 +80,6 @@ class WorkshopConfig:
 
     def public_key(self):
         return self.__get_option("public_key")
+
+    def suffix(self):
+        return self.__get_option("suffix")

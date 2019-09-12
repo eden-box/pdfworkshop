@@ -36,6 +36,9 @@ The input/ouput directories can also be configured, although not advised.
 Their default values are set to the current directory and another _output_ directory,
 according to the path from where the tool was called.
 
+There can also a suffix be added to compressed files. This suffix is added after the original filename and before
+the .pdf extension. The default suffix value is "_compressed".
+
 ## Commands
 - list-config - list tool configuration values
 - config \<option\> \<value\> - edit tool configuration values
