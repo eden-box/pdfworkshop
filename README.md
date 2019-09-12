@@ -9,11 +9,16 @@ Python version 3.5 or above is assumed to be installed, as well as pip package m
 ## Installation
 ```bash
 pip install pdfworkshop
-``` 
+```
 or
 ```bash
 python setup.py install
-``` 
+```
+
+or
+```bash
+pip install -e ~/local_fork_repo_path/
+```
 
 ## How to run
 ```bash
@@ -26,7 +31,7 @@ The required public key can be obtained by creating a developer account in [iLov
 The value can be configured using:
 ```bash
 pdfworkshop config public_key new_public_key_value
-``` 
+```
 The input/ouput directories can also be configured, although not advised.
 Their default values are set to the current directory and another _output_ directory,
 according to the path from where the tool was called.
