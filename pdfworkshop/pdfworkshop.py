@@ -90,6 +90,17 @@ class PDFWorkshop:
         """
         self.__config.list_config()
 
+    def check_configuration(self):
+        """
+        Check if the configuration is valid.
+        :return: True if there is a valid configuration.
+        """
+        if self.__config.output_dir() == self.__config.input_dir() and self.__config.suffix() == "":
+            print("ERROR: output_dir dir cannot be the same as input_dir with an empty suffix!")
+            return False
+
+        return True
+
     def run(self):
         """
         Run using the stored configurations
@@ -110,6 +121,8 @@ class PDFWorkshop:
         :param output_dir: directory where the compressed PDF files will be stored
         :param suffix: the suffix given to the compressed file (before the extension)
         """
+        if not self.check_configuration():
+            return
 
         # create directories if they do not exist
         self.__setup_dir(self.__config.input_dir())
@@ -132,6 +145,6 @@ class PDFWorkshop:
             zip_ref.close()
             os.remove(zip_file)
 
-        # rename all pdf to their original filename
+        # Rename all PDFs to their original filename and possibly add a suffix.
         [os.rename(filename, PDFWorkshop.__rename_file(filename, suffix))
          for filename in PDFWorkshop.__get_files_to_rename(output_dir)]
