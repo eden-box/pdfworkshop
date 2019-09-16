@@ -74,6 +74,9 @@ class PDFWorkshop:
         :param files: The list of files to compress.
         :return: The new list.
         """
+        if self.__config.suffix() == "" or self.__config.suffix() == " ":
+            return files
+
         return [file for file in files if self.__config.suffix() not in file]
 
     def __get_files_to_rename(self, directory):
