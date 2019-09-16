@@ -68,6 +68,14 @@ class PDFWorkshop:
         else:
             return glob.glob("{}*.{}".format(directory, file_extension), recursive=False)
 
+    def __ignore_files_with_suffix(self, files):
+        """
+        Remove files containing the suffix from list of files to compress.
+        :param files: The list of files to compress.
+        :return: The new list.
+        """
+        return [file for file in files if self.__config.suffix() not in file]
+
     def __get_files_to_rename(self, directory):
         """
         Get list of recently compressed files, to rename
@@ -136,6 +144,7 @@ class PDFWorkshop:
 
         # Search input directory for PDFs. Return if there are no matching files.
         files = self.__get_files(input_dir, "pdf")
+        files = self.__ignore_files_with_suffix(files)
         if len(files) == 0:
             print("ERROR: There are no files to be compressed.")
             return
