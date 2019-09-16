@@ -26,18 +26,20 @@ pdfworkshop -h
 ```
 
 ## Configuration
-The public_key value must be defined before using the tool for the first time.
-The required public key can be obtained by creating a developer account in [iLovePDF](https://developer.ilovepdf.com/).
-The value can be configured using:
-```bash
-pdfworkshop config public_key new_public_key_value
-```
-The input/ouput directories can also be configured, although not advised.
-Their default values are set to the current directory and another _output_ directory,
-according to the path from where the tool was called.
+| name       | default     | description                                                      |
+|------------|-------------|------------------------------------------------------------------|
+| input_dir  | ./          | Directory where PDF files will be collected from.                |
+| output_dir | ./output/   | Directory where the compressed PDF files will be stored.         |
+| public_key | ""          | Your public API key.                                                     |
+| suffix     | _compressed | The suffix given to compressed files (before the extension).     |
+| recursive  | False       | Boolean indicating if input_dir must be scanned recursively. |
 
-There can also a suffix be added to compressed files. This suffix is added after the original filename and before
-the .pdf extension. The default suffix value is "_compressed".
+The public_key value must be defined before using the tool for the first time.
+The required public key can be obtained by creating a developer account on [iLovePDF](https://developer.ilovepdf.com/).
+Any value can be configured using:
+```bash
+pdfworkshop config <config_name> <new_config_value>
+```
 
 ## Commands
 - list-config - list tool configuration values
