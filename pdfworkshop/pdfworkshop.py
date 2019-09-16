@@ -46,7 +46,6 @@ class PDFWorkshop:
         """
         return "{}{}.pdf".format(filename.split(".pdf", 1)[0], suffix)
 
-
     @staticmethod
     def __clean_filename(filename):
         """
@@ -57,24 +56,25 @@ class PDFWorkshop:
         """
         return "{}.pdf".format(filename.split("_compress_", 1)[0])
 
-    @staticmethod
-    def __get_files(directory, file_extension):
+    def __get_files(self, directory, file_extension):
         """
-        Get a list of all files of a given type in a directory
+        Get a list of all files of a given type in a directory and optionally it sub-directories.
         :param directory: directory to search
         :param file_extension: file extension to search
         :return: list of found files
         """
-        return glob.glob("{}*.{}".format(directory, file_extension))
+        if self.__config.recursive() == "True":
+            return glob.glob("{}**/*.{}".format(directory, file_extension), recursive=True)
+        else:
+            return glob.glob("{}*.{}".format(directory, file_extension), recursive=False)
 
-    @staticmethod
-    def __get_files_to_rename(directory):
+    def __get_files_to_rename(self, directory):
         """
         Get list of recently compressed files, to rename
         :param directory: directory where the compressed files were stored
         :return: files to rename
         """
-        return [file for file in PDFWorkshop.__get_files(directory, "pdf") if "_compress_" in file]
+        return [file for file in self.__get_files(directory, "pdf") if "_compress_" in file]
 
     def setup(self, option, value):
         """
@@ -97,6 +97,9 @@ class PDFWorkshop:
         """
         if self.__config.output_dir() == self.__config.input_dir() and self.__config.suffix() == "":
             print("ERROR: output_dir dir cannot be the same as input_dir with an empty suffix!")
+            return False
+        if self.__config.recursive() != "False" and self.__config.recursive() != "True":
+            print("ERROR: The recursive config can only hold values True and False!")
             return False
 
         return True
@@ -143,12 +146,12 @@ class PDFWorkshop:
 
         # unzip response zip, if there is one
         # note that the API response is a zip only if more than one pdf was submitted
-        for zip_file in PDFWorkshop.__get_files(output_dir, "zip"):
+        for zip_file in self.__get_files(output_dir, "zip"):
             zip_ref = zipfile.ZipFile(zip_file, 'r')
             zip_ref.extractall(output_dir)
             zip_ref.close()
             os.remove(zip_file)
 
         # Rename all PDFs to their original filename and possibly add a suffix.
-        [os.rename(filename, PDFWorkshop.__rename_file(filename, suffix))
-         for filename in PDFWorkshop.__get_files_to_rename(output_dir)]
+        [os.rename(filename, self.__rename_file(filename, suffix))
+         for filename in self.__get_files_to_rename(output_dir)]

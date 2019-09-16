@@ -83,3 +83,6 @@ class WorkshopConfig:
 
     def suffix(self):
         return self.__get_option("suffix")
+
+    def recursive(self):
+        return self.__get_option("recursive")
