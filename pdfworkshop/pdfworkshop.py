@@ -131,8 +131,12 @@ class PDFWorkshop:
         compress = Compress(public_key, verify_ssl=True)
         compress.set_output_folder(output_dir)
 
-        # search current directory
-        [compress.add_file(file) for file in self.__get_files(input_dir, "pdf")]
+        # Search input directory for PDFs. Return if there are no matching files.
+        files = self.__get_files(input_dir, "pdf")
+        if len(files) == 0:
+            print("ERROR: There are no files to be compressed.")
+            return
+        [compress.add_file(file) for file in files]
 
         compress.execute()  # upload files to iLovePDF
         compress.download()  # download resultant file
