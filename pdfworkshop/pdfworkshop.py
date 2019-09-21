@@ -155,6 +155,7 @@ class PDFWorkshop:
 
         compress.execute()  # upload files to iLovePDF
         compress.download()  # download resultant file
+        print("Compression saved {}% of disk space!".format(compress.get_percent_storage_saved()))
 
         # unzip response zip, if there is one
         # note that the API response is a zip only if more than one pdf was submitted
