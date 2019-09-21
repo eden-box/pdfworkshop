@@ -115,6 +115,16 @@ class PDFWorkshop:
 
         return True
 
+    @staticmethod
+    def __percentage_storage_saved(task):
+        """
+        Calculate the percentage of storage space saved by the compression.
+        :param task: The information of the task.
+        :return: The percentage of storage space saved.
+        """
+        task_information = task.get_task_information()
+        return int((1 - task_information.output_filesize / task_information.filesize) * 100)
+
     def run(self):
         """
         Run using the stored configurations
@@ -142,7 +152,7 @@ class PDFWorkshop:
         self.__setup_dir(self.__config.input_dir())
         self.__setup_dir(self.__config.output_dir())
 
-        compress = Compress(public_key, verify_ssl=True)
+        compress = Compress(public_key, verify_ssl=True, proxies=None)
         compress.set_output_folder(output_dir)
 
         # Search input directory for PDFs. Return if there are no matching files.
@@ -155,7 +165,7 @@ class PDFWorkshop:
 
         compress.execute()  # upload files to iLovePDF
         compress.download()  # download resultant file
-        print("Compression saved {}% of disk space!".format(compress.get_percent_storage_saved()))
+        print("Compression saved {}% of disk space!".format(self.__percentage_storage_saved(compress)))
 
         # unzip response zip, if there is one
         # note that the API response is a zip only if more than one pdf was submitted
