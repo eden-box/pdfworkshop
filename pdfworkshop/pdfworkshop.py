@@ -174,6 +174,8 @@ class PDFWorkshop:
         # unzip response zip, if there is one
         # note that the API response is a zip only if more than one pdf was submitted
         for zip_file in self.__get_files(output_dir, "zip"):
+            if "compress_" not in zip_file:
+                break
             zip_ref = zipfile.ZipFile(zip_file, 'r')
             zip_ref.extractall(output_dir)
             zip_ref.close()
