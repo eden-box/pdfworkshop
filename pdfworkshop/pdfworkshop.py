@@ -112,6 +112,10 @@ class PDFWorkshop:
         if self.__config.recursive() != "False" and self.__config.recursive() != "True":
             print("ERROR: The recursive config can only hold values True and False!")
             return False
+        if self.__config.public_key() == "":
+            print("ERROR: public_key not set! Set by 'pdfworkshop config public_key <your_key>'. "
+                  "A free API key can be obtained from https://developer.ilovepdf.com/")
+            return False
 
         return True
 
