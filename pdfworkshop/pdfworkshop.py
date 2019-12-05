@@ -63,7 +63,7 @@ class PDFWorkshop:
         :param file_extension: file extension to search
         :return: list of found files
         """
-        path_spec = "{}**/*.{}" if self.__config.recursive() else path_spec = "{}*.{}"
+        path_spec = "{}**/*.{}" if self.__config.recursive() else "{}*.{}"
         return glob.glob(path_spec.format(directory, file_extension), recursive=self.__config.recursive())
 
     def __ignore_files_with_suffix(self, files):
@@ -72,9 +72,9 @@ class PDFWorkshop:
         :param files: list of files to compress
         :return: new list
         """
-        if not self.__config.suffix().strip():
-            return files
-        return [file for file in files if self.__config.suffix() not in file]
+        if self.__config.suffix().strip():
+            files = [file for file in files if self.__config.suffix() not in file]
+        return files
 
     def __get_files_to_rename(self, directory):
         """
@@ -153,7 +153,7 @@ class PDFWorkshop:
             compress = Compress(public_key, verify_ssl=True, proxies=None)
             compress.set_output_folder(output_dir)
 
-            # search input directory for PDFs. Return if there are no matching files.
+            # search input directory for PDFs. Return if there are no matching files
             files = self.__get_files(input_dir, "pdf")
             files = self.__ignore_files_with_suffix(files)
             if len(files) == 0:
@@ -167,6 +167,7 @@ class PDFWorkshop:
             print("Compression saved {}% of disk space.".format(
                 self.__percentage_storage_saved(compress))
             )
+            compress.delete_current_task()
 
             # unzip response zip, if there is one
             # note that the API response is a zip only if more than one pdf was submitted
@@ -177,6 +178,6 @@ class PDFWorkshop:
                     zip_ref.close()
                     os.remove(zip_file)
 
-            # rename all PDFs to their original filename and possibly add a suffix.
+            # rename all PDFs to their original filename and possibly add a suffix
             [os.rename(filename, self.__rename_file(filename, suffix))
              for filename in self.__get_files_to_rename(output_dir)]
