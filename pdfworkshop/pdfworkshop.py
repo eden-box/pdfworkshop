@@ -156,7 +156,7 @@ class PDFWorkshop:
             # search input directory for PDFs. Return if there are no matching files
             files = self.__get_files(input_dir, "pdf")
             files = self.__ignore_files_with_suffix(files)
-            if len(files) == 0:
+            if not files:
                 print("ERROR: there are no files to compressed.")
                 return
 
