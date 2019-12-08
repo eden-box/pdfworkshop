@@ -14,7 +14,7 @@ def pdf_workshop(ctx):
 
 
 @pdf_workshop.command()
-@click.argument("option", type=click.Choice(['public_key', 'input_dir', 'output_dir']))
+@click.argument("option", type=click.Choice(['public_key', 'input_dir', 'output_dir', 'suffix', 'recursive']))
 @click.argument("value")
 @click.pass_context
 def config(ctx, option, value):
