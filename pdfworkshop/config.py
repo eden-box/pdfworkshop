@@ -100,3 +100,6 @@ class WorkshopConfig:
 
     def recursive(self):
         return self.__config.getboolean(USER_SECTION, "recursive")
+
+    def concurrency_limit(self):
+        return self.__config.getint(USER_SECTION, "concurrency_limit")

@@ -3,6 +3,8 @@
 import os
 import glob
 import zipfile
+import binpacking
+from concurrent.futures import ThreadPoolExecutor
 
 from pylovepdf.tools.compress import Compress
 from .config import WorkshopConfig as Config
@@ -128,14 +130,41 @@ class PDFWorkshop:
         """
         Run using the stored configurations.
         """
-        self.__run(
+        self.compress(
             self.__config.public_key(),
             self.__config.input_dir(),
             self.__config.output_dir(),
             self.__config.suffix()
         )
 
-    def __run(self, public_key, input_dir, output_dir, suffix):
+    @staticmethod
+    def process_files(compress, files):
+        """
+        Process a set of files.
+        :param compress: compress utility
+        :param files: files to process
+        """
+        [compress.add_file(file) for file in files]
+
+        compress.execute()   # upload files to iLovePDF
+        compress.download()  # download resultant file
+        print("Compression saved {}% of disk space.".format(
+            PDFWorkshop.__percentage_storage_saved(compress))
+        )
+        compress.delete_current_task()
+
+    @staticmethod
+    def distribute_load(files, bins):
+        """
+        Distribute files by a defined number of bins.
+        :param files: list of file paths
+        :param bins: number of available bins
+        """
+        files_size = {file: os.path.getsize(file) for file in files}
+        separated_files = binpacking.to_constant_bin_number(files_size, bins)
+        return [list(file_dict.keys()) for file_dict in separated_files]
+
+    def compress(self, public_key, input_dir, output_dir, suffix):
         """
         Compress PDF files stored in input_dir and store the resultant files in output_dir.
         Authentication is made using the provided public key.
@@ -147,8 +176,8 @@ class PDFWorkshop:
         if self.valid_configuration():
 
             # create directories if they do not exist
-            self.__setup_dir(self.__config.input_dir())
-            self.__setup_dir(self.__config.output_dir())
+            self.__setup_dir(input_dir)
+            self.__setup_dir(output_dir)
 
             compress = Compress(public_key, verify_ssl=True, proxies=None)
             compress.set_output_folder(output_dir)
@@ -160,14 +189,16 @@ class PDFWorkshop:
                 print("ERROR: there are no files to compressed.")
                 return
 
-            [compress.add_file(file) for file in files]
+            # efficiently distribute archive load by available concurrent task rate limit
+            file_bins = self.distribute_load(files, self.__config.concurrency_limit())
 
-            compress.execute()   # upload files to iLovePDF
-            compress.download()  # download resultant file
-            print("Compression saved {}% of disk space.".format(
-                self.__percentage_storage_saved(compress))
-            )
-            compress.delete_current_task()
+            # distribute load by the available threads, also corresponding to the api concurrency limit
+            with ThreadPoolExecutor(max_workers=self.__config.concurrency_limit()) as executor:
+                for sorted_files in file_bins:
+                    if sorted_files:
+                        compress = Compress(public_key, verify_ssl=True, proxies=None)
+                        compress.set_output_folder(output_dir)
+                        executor.submit(PDFWorkshop.process_files, compress, sorted_files)
 
             # unzip response zip, if there is one
             # note that the API response is a zip only if more than one pdf was submitted
