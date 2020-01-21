@@ -29,13 +29,13 @@ update:
 test:
 	$(POETRY) run pytest
 
-dist:    update
+dist:   update
 	$(POETRY) build
 
 pub:    dist
 	$(POETRY) publish
 
-pubt:    dist
+pubt:   dist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 .PHONY: setup devsetup shell update test dist pub pubt

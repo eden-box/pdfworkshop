@@ -33,8 +33,8 @@ click = "~7.0"
 appdirs = "~1.4.3"
 binpacking = "~1.4.1"
 
-# Git dependencies
-pylovepdf = { git = "https://github.com/eden-box/pylovepdf.git", tag = "v1.3.5" }
+# Local dependencies
+pylovepdf = { path = "./pdfworkshop/pylovepdf/" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
