@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdfworkshop"
-version = "1.0.5"
+version = "1.1.1"
 description = "PDF compressor utility, using iLovePDF API"
 
 license = "MIT"
@@ -17,8 +17,7 @@ homepage = "https://github.com/eden-box/pdfworkshop"
 keywords = ['python', 'pdf', 'compress', 'ilovepdf']
 
 classifiers = [
-    'Development Status :: 4 - Beta',
-    'Programming Language :: Python :: 3.5',
+    'Development Status :: 5 - Production/Stable',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
     'Operating System :: OS Independent',
@@ -28,13 +27,11 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5"  # compatible python versions must be declared here
+python = "^3.6"  # compatible python versions must be declared here
+edenpdf = "^1.0.1"
 click = "~7.0"
 appdirs = "~1.4.3"
 binpacking = "~1.4.1"
-
-# Local dependencies
-pylovepdf = { path = "./pdfworkshop/pylovepdf/" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"

@@ -6,7 +6,7 @@ import zipfile
 import binpacking
 from concurrent.futures import ThreadPoolExecutor
 
-from pylovepdf.tools.compress import Compress
+from edenpdf.tools.compress import Compress
 from .config import WorkshopConfig as Config
 
 

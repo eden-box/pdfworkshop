@@ -4,7 +4,7 @@ PDF compress tool, using iLovePDF API
 
 ## Prerequisites
 The application is compatible with Windows and Linux based systems.
-Python version 3.5 or above is assumed to be installed, as well as pip package manager utility and setuptools module.
+Python version 3.6 or above is assumed to be installed, as well as pip package manager utility and setuptools module.
 
 ## Installation
 ```bash
