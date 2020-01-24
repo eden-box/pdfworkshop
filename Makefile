@@ -1,33 +1,41 @@
-PIP=python -m pip
-PYR=python -m pipenv
-PRINT=python -c "import sys; print(str(sys.argv[1]))"
+POETRY=python3 -m poetry
+PRINT=python3 -c "import sys; print(str(sys.argv[1]))"
 
 help:
 	$(PRINT) "Usage:"
 	$(PRINT) "    help          show this message"
 	$(PRINT) "    setup         create virtual environment and install dependencies"
+	$(PRINT) "    devsetup      create virtual environment and install dev dependencies"
+	$(PRINT) "    shell         spawn a shell within the virtual environment"
+	$(PRINT) "    test          run test suites"
 	$(PRINT) "    dist          package application for distribution"
-	$(PRINT) "    clean         remove the project dependencies and environment"
+	$(PRINT) "    pub           publish package to PyPI"
+	$(PRINT) "    pubt          publish package to Test PyPI"
 
 setup:
-	$(PIP) install pipenv
-	$(PYR) install --three
-	$(PYR) run pip install .
-	$(PYR) lock -r > requirements.txt
+	$(POETRY) install --no-dev
+	$(POETRY) config repositories.testpypi https://test.pypi.org/simple
 
-dist:	clean setup
-	$(PYR) run python setup.py sdist bdist_wheel
+devsetup:
+	$(POETRY) install
+	$(POETRY) config repositories.testpypi https://test.pypi.org/simple
+
+shell:
+	$(POETRY) shell
+
+update:
+	$(POETRY) update
+
+test:
+	$(POETRY) run pytest
+
+dist:   update
+	$(POETRY) build
 
 pub:    dist
-	twine upload dist/*
+	$(POETRY) publish
 
-pubt:    dist
+pubt:   dist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-clean:
-	rm -f -r dist build *.egg-info requirements.txt
-
-delete:    clean
-	$(PYR) --rm
-
-.PHONY: setup dist pub pubt clean delete
+.PHONY: setup devsetup shell update test dist pub pubt
