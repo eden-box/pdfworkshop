@@ -42,4 +42,4 @@ pub:    dist
 pubt:   dist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-.PHONY: setup devsetup shell update test dist pub pubt
+.PHONY: setup devsetup shell update test autotest dist pub pubt
