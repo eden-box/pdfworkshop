@@ -13,11 +13,11 @@ help:
 	$(PRINT) "    pub           publish package to PyPI"
 	$(PRINT) "    pubt          publish package to Test PyPI"
 
-setup:
+setup: update
 	$(POETRY) install --no-dev
 	$(POETRY) config repositories.testpypi https://test.pypi.org/simple
 
-devsetup:
+devsetup: update
 	$(POETRY) install
 	$(POETRY) config repositories.testpypi https://test.pypi.org/simple
 
