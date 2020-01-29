@@ -27,10 +27,10 @@ shell:
 update:
 	$(POETRY) update
 
-test:
+test: update
 	$(POETRY) run pytest
 
-autotest:
+autotest: update
 	$(POETRY) run pytest -m "not manual"
 
 dist:   update
