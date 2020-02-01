@@ -1,5 +1,9 @@
-POETRY=python3 -m poetry
-PRINT=python3 -c "import sys; print(str(sys.argv[1]))"
+ifndef PYTHONCALL
+PYTHONCALL=python3
+endif
+
+POETRY=$(PYTHONCALL) -m poetry
+PRINT=$(PYTHONCALL) -c "import sys; print(str(sys.argv[1]))"
 
 help:
 	$(PRINT) "Usage:"
