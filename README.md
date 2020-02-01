@@ -1,5 +1,5 @@
 # pdfworkshop
-
+[![Build Status](https://travis-ci.org/eden-box/pdfworkshop.svg?branch=master)](https://travis-ci.org/eden-box/pdfworkshop)
 PDF compress tool, using iLovePDF API
 
 ## Prerequisites
