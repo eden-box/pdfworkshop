@@ -22,9 +22,9 @@ class TestEdenpdf:
 
     @staticmethod
     def verify_compression(input_dir, output_dir):
-        assert count_files(input_dir) == count_files(output_dir)
         _, res, _ = filecmp.cmpfiles(input_dir, output_dir, input_dir.listdir())
         assert not res
+        assert count_files(input_dir) == count_files(output_dir)
 
     @staticmethod
     def generate_files(base_file, input_dir, filenames):
