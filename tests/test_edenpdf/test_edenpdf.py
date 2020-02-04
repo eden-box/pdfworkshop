@@ -61,11 +61,12 @@ class TestEdenpdf:
 
         input_dir = tmpdir.mkdir("input")
         output_dir = tmpdir.mkdir("output")
+        suffix = ""
 
         dummy_file = datadir / self.__dummy_file
 
         self.generate_files(dummy_file, input_dir, filenames)
 
-        PDFWorkshop().compress(self.__api_key, input_dir.strpath + '/', output_dir.strpath + '/', "")
+        PDFWorkshop().compress(self.__api_key, input_dir.strpath + '/', output_dir.strpath + '/', suffix)
 
         self.verify_compression(input_dir, output_dir)
