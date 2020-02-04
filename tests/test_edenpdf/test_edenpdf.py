@@ -16,6 +16,10 @@ class TestEdenpdf:
     __dummy_file = "dummy_file.pdf"
     __api_key = os.environ['ILOVEPDF_API_TOKEN']
 
+    def setup_class(self):
+        if not PDFWorkshop().valid_configuration():
+            PDFWorkshop().setup('public_key', self.__api_key)
+
     @staticmethod
     def verify_compression(input_dir, output_dir):
         assert count_files(input_dir) == count_files(output_dir)
