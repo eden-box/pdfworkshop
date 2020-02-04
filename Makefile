@@ -37,6 +37,9 @@ test: update
 autotest: update
 	$(POETRY) run pytest -m "not manual"
 
+profile_autotest: update
+	$(POETRY) run pytest -m "not manual" --durations=3
+
 dist:   update
 	$(POETRY) build
 
@@ -46,4 +49,4 @@ pub:    dist
 pubt:   dist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-.PHONY: setup devsetup shell update test autotest dist pub pubt
+.PHONY: setup devsetup shell update test autotest profile_autotest dist pub pubt

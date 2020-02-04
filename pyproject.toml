@@ -36,6 +36,7 @@ binpacking = "~1.4.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
+pytest-datadir = "^1.3.1"
 
 [tool.poetry.scripts]
 pdfworkshop = 'pdfworkshop.cli:start'
